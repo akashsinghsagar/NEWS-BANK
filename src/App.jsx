@@ -7,6 +7,10 @@ import Footer from './components/Footer'
 // Public Pages
 import Home from './pages/Home'
 import NewsDetails from './pages/NewsDetails'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import TermsConditions from './pages/TermsConditions'
+import Disclaimer from './pages/Disclaimer'
+import Contact from './pages/Contact'
 
 // Admin Pages
 import AdminLogin from './admin/Login'
@@ -47,6 +51,12 @@ function App() {
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/news/:id" element={<NewsDetails />} />
+            
+            {/* Legal Pages */}
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-and-conditions" element={<TermsConditions />} />
+            <Route path="/disclaimer" element={<Disclaimer />} />
+            <Route path="/contact" element={<Contact />} />
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />

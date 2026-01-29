@@ -25,31 +25,21 @@ const Footer = () => {
 
           {/* Categories */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Categories</h4>
+            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/category/local" className="text-gray-400 hover:text-secondary transition">
-                  Local News
+                <Link to="/" className="text-gray-400 hover:text-secondary transition text-sm">
+                  Home
                 </Link>
               </li>
               <li>
-                <Link to="/category/national" className="text-gray-400 hover:text-secondary transition">
-                  National News
+                <Link to="/contact" className="text-gray-400 hover:text-secondary transition text-sm">
+                  Contact Us
                 </Link>
               </li>
               <li>
-                <Link to="/category/business" className="text-gray-400 hover:text-secondary transition">
-                  Business
-                </Link>
-              </li>
-              <li>
-                <Link to="/category/sports" className="text-gray-400 hover:text-secondary transition">
-                  Sports
-                </Link>
-              </li>
-              <li>
-                <Link to="/category/tech" className="text-gray-400 hover:text-secondary transition">
-                  Technology
+                <Link to="/admin/login" className="text-gray-400 hover:text-secondary transition text-sm">
+                  Admin Login
                 </Link>
               </li>
             </ul>
@@ -60,43 +50,48 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-secondary transition">
+                <Link to="/privacy-policy" className="text-gray-400 hover:text-secondary transition text-sm">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-secondary transition">
-                  Terms of Service
-                </a>
+                <Link to="/terms-and-conditions" className="text-gray-400 hover:text-secondary transition text-sm">
+                  Terms & Conditions
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-secondary transition">
-                  Contact Us
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-secondary transition">
-                  Advertise With Us
-                </a>
+                <Link to="/disclaimer" className="text-gray-400 hover:text-secondary transition text-sm">
+                  Disclaimer
+                </Link>
               </li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
+            <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
             <div className="space-y-2">
-              <p className="text-gray-400 text-sm">Email: info@newsbank.com</p>
-              <p className="text-gray-400 text-sm">Phone: +91 (123) 456-7890</p>
+              <p className="text-gray-400 text-sm">
+                <a href="mailto:newsbankchannel@gmail.com" className="hover:text-secondary transition">
+                  newsbankchannel@gmail.com
+                </a>
+              </p>
+              <p className="text-gray-400 text-sm">
+                <a href="tel:+918825336520" className="hover:text-secondary transition">
+                  +91 8825336520
+                </a>
+              </p>
+              <p className="text-gray-400 text-sm">
+                <a href="tel:+918271681962" className="hover:text-secondary transition">
+                  +91 8271681962
+                </a>
+              </p>
               <div className="flex space-x-3 mt-4">
-                <a href="#" className="text-secondary hover:text-accent transition">
+                <a href="#" className="text-secondary hover:text-accent transition text-sm">
                   Facebook
                 </a>
-                <a href="#" className="text-secondary hover:text-accent transition">
+                <a href="#" className="text-secondary hover:text-accent transition text-sm">
                   Twitter
-                </a>
-                <a href="#" className="text-secondary hover:text-accent transition">
-                  Instagram
                 </a>
               </div>
             </div>
@@ -113,6 +108,23 @@ const Footer = () => {
         {/* Copyright */}
         <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
           <p>&copy; {currentYear} NEWS BANK. All rights reserved. | ख़बरों में आगे</p>
+          <div className="mt-3 flex flex-wrap justify-center gap-4 text-xs">
+            <Link to="/privacy-policy" className="hover:text-secondary transition">
+              Privacy Policy
+            </Link>
+            <span>•</span>
+            <Link to="/terms-and-conditions" className="hover:text-secondary transition">
+              Terms & Conditions
+            </Link>
+            <span>•</span>
+            <Link to="/disclaimer" className="hover:text-secondary transition">
+              Disclaimer
+            </Link>
+            <span>•</span>
+            <Link to="/contact" className="hover:text-secondary transition">
+              Contact
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
