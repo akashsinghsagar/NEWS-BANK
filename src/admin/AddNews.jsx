@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { createNews, uploadNewsImage } from '../services/newsService'
-import { AlertCircle, Upload } from 'lucide-react'
+import { AlertCircle, Upload, ChevronLeft } from 'lucide-react'
 
 /**
  * Add News Page
@@ -13,15 +13,13 @@ const AddNews = () => {
   const [formData, setFormData] = useState({
     title: '',
     content: '',
-    category: 'local',
+    reporter_name: '',
     is_published: false,
   })
   const [imageFile, setImageFile] = useState(null)
   const [previewUrl, setPreviewUrl] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-
-  const categories = ['local', 'national', 'business', 'sports', 'tech']
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -66,7 +64,6 @@ const AddNews = () => {
       const newsData = {
         ...formData,
         image_url: imageUrl,
-        created_at: new Date().toISOString(),
       }
 
       const { data, error: createError } = await createNews(newsData)
@@ -74,8 +71,8 @@ const AddNews = () => {
       if (createError) {
         setError(createError)
       } else {
-        // Redirect to dashboard
-        navigate('/admin/dashboard')
+        // Redirect to home to show published article
+        navigate('/')
       }
     } finally {
       setLoading(false)
@@ -87,6 +84,10 @@ const AddNews = () => {
       {/* Header */}
       <div className="bg-primary text-white shadow-lg">
         <div className="container mx-auto px-4 py-6">
+          <Link to="/" className="flex items-center text-accent hover:text-white mb-2 font-medium text-sm">
+            <ChevronLeft className="w-4 h-4 mr-1" />
+            Back to Home
+          </Link>
           <h1 className="text-3xl font-bold">Add New Article</h1>
           <p className="text-secondary">Create and publish a new news article</p>
         </div>
@@ -124,24 +125,20 @@ const AddNews = () => {
               />
             </div>
 
-            {/* Category */}
+            {/* Reporter Name */}
             <div>
-              <label htmlFor="category" className="block text-sm font-medium text-primary mb-2">
-                Category *
+              <label htmlFor="reporter_name" className="block text-sm font-medium text-primary mb-2">
+                Reporter Name
               </label>
-              <select
-                id="category"
-                name="category"
-                value={formData.category}
+              <input
+                id="reporter_name"
+                type="text"
+                name="reporter_name"
+                value={formData.reporter_name}
                 onChange={handleInputChange}
+                placeholder="Enter reporter's name"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
-              >
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
 
             {/* Image Upload */}
@@ -232,10 +229,10 @@ const AddNews = () => {
               </button>
               <button
                 type="button"
-                onClick={() => navigate('/admin/dashboard')}
+                onClick={() => navigate('/')}
                 className="flex-1 bg-gray-300 text-primary py-2 rounded-lg font-semibold hover:opacity-90 transition"
               >
-                Cancel
+                Back to Home
               </button>
             </div>
           </form>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react'
+import { Mail, Phone, MapPin, Send, CheckCircle, ChevronLeft } from 'lucide-react'
 
 /**
  * Contact Page
@@ -39,6 +39,12 @@ const Contact = () => {
   return (
     <main className="bg-gray-50 min-h-screen py-8 sm:py-12">
       <div className="container mx-auto px-4 max-w-6xl">
+        {/* Back Button */}
+        <Link to="/" className="flex items-center text-secondary hover:text-primary mb-6 font-medium">
+          <ChevronLeft className="w-4 h-4 mr-2" />
+          Back to Home
+        </Link>
+
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-4xl sm:text-5xl font-bold text-primary mb-4">Contact Us</h1>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { AlertTriangle, Mail, Phone } from 'lucide-react'
+import { AlertTriangle, Mail, Phone, ChevronLeft } from 'lucide-react'
 
 /**
  * Disclaimer Page
@@ -11,6 +11,12 @@ const Disclaimer = () => {
   return (
     <main className="bg-gray-50 min-h-screen py-8 sm:py-12">
       <div className="container mx-auto px-4 max-w-4xl">
+        {/* Back Button */}
+        <Link to="/" className="flex items-center text-secondary hover:text-primary mb-6 font-medium">
+          <ChevronLeft className="w-4 h-4 mr-2" />
+          Back to Home
+        </Link>
+
         {/* Header */}
         <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 mb-6">
           <div className="flex items-center space-x-3 mb-4">

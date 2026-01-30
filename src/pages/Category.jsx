@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { fetchNewsByCategory } from '../services/newsService'
 import NewsCard from '../components/NewsCard'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, ChevronLeft } from 'lucide-react'
 
 /**
  * Category Page
@@ -37,6 +37,10 @@ const Category = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-primary to-secondary text-white py-12">
         <div className="container mx-auto px-4">
+          <Link to="/" className="flex items-center text-accent hover:text-white mb-4 font-medium">
+            <ChevronLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </Link>
           <h1 className="text-4xl md:text-5xl font-bold mb-2">{categoryTitle}</h1>
           <p className="text-lg text-accent">Latest {categoryTitle} news and updates</p>
         </div>

@@ -34,9 +34,6 @@ const NewsCard = ({ article }) => {
               alt={article.title}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            <span className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-secondary text-white px-2 py-1 sm:px-3 sm:py-1 rounded text-xs font-semibold shadow-lg">
-              {article.category}
-            </span>
           </div>
         </Link>
       )}
@@ -53,8 +50,13 @@ const NewsCard = ({ article }) => {
           {truncateText(article.content)}
         </p>
 
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">{formatDate(article.created_at)}</span>
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex flex-col text-xs text-gray-500">
+            <span>{formatDate(article.created_at)}</span>
+            {article.reporter_name && (
+              <span className="text-gray-600 font-medium">By: {article.reporter_name}</span>
+            )}
+          </div>
           <Link
             to={`/news/${article.id}`}
             className="text-secondary font-semibold text-xs sm:text-sm hover:underline transition active:scale-95"

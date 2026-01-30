@@ -14,6 +14,7 @@ import Contact from './pages/Contact'
 
 // Admin Pages
 import AdminLogin from './admin/Login'
+import AdminSignup from './admin/Signup'
 import AdminDashboard from './admin/Dashboard'
 import AddNews from './admin/AddNews'
 import EditNews from './admin/EditNews'
@@ -60,6 +61,7 @@ function App() {
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/signup" element={<AdminSignup />} />
             <Route
               path="/admin/dashboard"
               element={

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import {
   fetchNewsById,
   updateNews,
   uploadNewsImage,
   deleteNewsImage,
 } from '../services/newsService'
-import { AlertCircle, Upload } from 'lucide-react'
+import { AlertCircle, Upload, ChevronLeft } from 'lucide-react'
 
 /**
  * Edit News Page
@@ -19,7 +19,7 @@ const EditNews = () => {
   const [formData, setFormData] = useState({
     title: '',
     content: '',
-    category: 'local',
+    reporter_name: '',
     is_published: false,
     image_url: '',
   })
@@ -28,8 +28,6 @@ const EditNews = () => {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
-
-  const categories = ['local', 'national', 'business', 'sports', 'tech']
 
   useEffect(() => {
     loadArticle()
@@ -140,6 +138,10 @@ const EditNews = () => {
       {/* Header */}
       <div className="bg-primary text-white shadow-lg">
         <div className="container mx-auto px-4 py-6">
+          <Link to="/" className="flex items-center text-accent hover:text-white mb-2 font-medium text-sm">
+            <ChevronLeft className="w-4 h-4 mr-1" />
+            Back to Home
+          </Link>
           <h1 className="text-3xl font-bold">Edit Article</h1>
           <p className="text-secondary">Update news article details</p>
         </div>
@@ -175,26 +177,6 @@ const EditNews = () => {
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
               />
-            </div>
-
-            {/* Category */}
-            <div>
-              <label htmlFor="category" className="block text-sm font-medium text-primary mb-2">
-                Category *
-              </label>
-              <select
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
-              >
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                  </option>
-                ))}
-              </select>
             </div>
 
             {/* Image Upload */}

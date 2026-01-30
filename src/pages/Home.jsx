@@ -16,6 +16,7 @@ const Home = () => {
   useEffect(() => {
     const loadNews = async () => {
       const { data, error } = await fetchPublishedNews()
+      console.log('Fetched news:', { data, error })
       if (error) {
         setError(error)
       } else {
@@ -54,7 +55,9 @@ const Home = () => {
 
       {/* Content Section - Mobile Optimized */}
       <section className="container mx-auto px-4 py-6 sm:py-8 md:py-12">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main News Content */}
+          <div className="lg:col-span-2">
             {/* Loading State */}
             {loading && (
               <div className="flex items-center justify-center py-12 sm:py-16">
@@ -93,6 +96,51 @@ const Home = () => {
               </div>
             )}
           </div>
+
+          {/* Sidebar - Ads Section */}
+          <aside className="lg:col-span-1">
+            {/* Featured Ad Banner */}
+            <div className="bg-gradient-to-br from-primary to-secondary text-white rounded-lg p-6 mb-6 sticky top-20">
+              <h3 className="text-lg font-bold mb-4">Featured Advertisement</h3>
+              <div className="bg-gray-800 rounded-lg p-8 text-center h-96 flex items-center justify-center">
+                {/* Paste Google AdSense code here */}
+                <div className="text-gray-300">
+                  <p className="text-sm">Advertisement Space</p>
+                  <p className="text-xs text-gray-400 mt-2">300x600 Banner</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Secondary Ad */}
+            <div className="bg-white rounded-lg shadow-md p-6 border-2 border-gray-200 mb-6">
+              <h4 className="text-sm font-bold text-primary mb-3">Sponsored</h4>
+              <div className="bg-gray-200 rounded-lg p-6 text-center h-48 flex items-center justify-center">
+                {/* Paste second ad code here */}
+                <div className="text-gray-500 text-sm">
+                  Advertisement Banner<br/>300x250 Format
+                </div>
+              </div>
+            </div>
+
+            {/* Trending Section */}
+            {!loading && articles.length > 0 && (
+              <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-secondary">
+                <h4 className="font-bold text-primary mb-4">Trending Now</h4>
+                <div className="space-y-3">
+                  {articles.slice(0, 3).map((article) => (
+                    <a
+                      key={article.id}
+                      href={`/news/${article.id}`}
+                      className="text-sm text-gray-700 hover:text-secondary transition line-clamp-2 block hover:font-semibold"
+                    >
+                      • {article.title}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </aside>
+        </div>
       </section>
     </main>
   )

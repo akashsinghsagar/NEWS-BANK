@@ -99,10 +99,7 @@ const NewsDetails = () => {
           <div className="lg:col-span-2">
             {/* Article Header */}
             <div className="mb-6">
-              <div className="flex items-center space-x-4 mb-4">
-                <span className="bg-secondary text-white px-4 py-2 rounded-full text-sm font-bold">
-                  {article.category}
-                </span>
+              <div className="mb-4">
                 <span className="text-gray-500 text-sm">{formatDate(article.created_at)}</span>
               </div>
 
@@ -149,8 +146,10 @@ const NewsDetails = () => {
                   NB
                 </div>
                 <div>
-                  <p className="font-bold text-primary">NEWS BANK</p>
-                  <p className="text-sm text-gray-600">ख़बरों में आगे</p>
+                  <p className="font-semibold text-primary">
+                    {article.reporter_name || 'NEWS BANK'}
+                  </p>
+                  <p className="text-gray-600 text-sm">Reporter</p>
                 </div>
               </div>
             </div>
