@@ -15,10 +15,10 @@ const Footer = () => {
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand Section */}
-          <div>
-            <img src="/newsbank-logo.png" alt="NEWS BANK" className="h-12 w-auto mb-3" />
-            <p className="text-accent text-sm font-semibold mb-3">ख़बरों में आगे</p>
-            <p className="text-gray-400 text-sm">
+          <div className="flex flex-col items-start">
+            <img src="/LOGO.png" alt="NEWS BANK" className="h-16 w-auto mb-2" />
+            <p className="text-accent text-sm font-semibold mb-2">ख़बरों में आगे</p>
+            <p className="text-gray-400 text-sm leading-relaxed">
               Your trusted source for latest news and updates in Hindi and English.
             </p>
           </div>
@@ -86,45 +86,13 @@ const Footer = () => {
                   +91 8271681962
                 </a>
               </p>
-              <div className="flex space-x-3 mt-4">
-                <a href="#" className="text-secondary hover:text-accent transition text-sm">
-                  Facebook
-                </a>
-                <a href="#" className="text-secondary hover:text-accent transition text-sm">
-                  Twitter
-                </a>
-              </div>
             </div>
           </div>
-        </div>
-
-        {/* Google AdSense Footer Banner */}
-        <div className="border-t border-gray-700 py-4 my-8">
-          <p className="text-xs text-gray-500 text-center">
-            [Google AdSense Footer Banner - 728x90]
-          </p>
         </div>
 
         {/* Copyright */}
         <div className="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
           <p>&copy; {currentYear} NEWS BANK. All rights reserved. | ख़बरों में आगे</p>
-          <div className="mt-3 flex flex-wrap justify-center gap-4 text-xs">
-            <Link to="/privacy-policy" className="hover:text-secondary transition">
-              Privacy Policy
-            </Link>
-            <span>•</span>
-            <Link to="/terms-and-conditions" className="hover:text-secondary transition">
-              Terms & Conditions
-            </Link>
-            <span>•</span>
-            <Link to="/disclaimer" className="hover:text-secondary transition">
-              Disclaimer
-            </Link>
-            <span>•</span>
-            <Link to="/contact" className="hover:text-secondary transition">
-              Contact
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

@@ -36,6 +36,7 @@ const AdminLogin = () => {
 
   return (
     <main className="min-h-screen bg-gradient-to-r from-primary to-secondary flex items-center justify-center px-4">
+      {/* Back Button */}
       <div className="absolute top-4 left-4">
         <Link to="/" className="flex items-center text-white hover:text-accent font-medium">
           <ChevronLeft className="w-4 h-4 mr-1" />
@@ -46,9 +47,9 @@ const AdminLogin = () => {
         {/* Card */}
         <div className="bg-white rounded-lg shadow-xl p-8">
           {/* Logo */}
-          <div className="text-center mb-8">
-            <img src="/newsbank-logo.png" alt="NEWS BANK" className="h-16 w-auto mx-auto mb-4" />
-            <p className="text-secondary font-semibold">Admin Panel</p>
+          <div className="flex flex-col items-center justify-center mb-8">
+            <img src="/LOGO.png" alt="NEWS BANK" className="h-20 w-auto mb-3" />
+            <p className="text-secondary font-semibold text-lg">Admin Panel</p>
             <p className="text-gray-500 text-sm">ख़बरों में आगे</p>
           </div>
 

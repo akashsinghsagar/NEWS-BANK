@@ -74,11 +74,9 @@ const AdminSignup = () => {
         {/* Card */}
         <div className="bg-white rounded-lg shadow-xl p-8">
           {/* Logo */}
-          <div className="text-center mb-8">
-            <div className="h-16 w-auto mx-auto mb-4 flex items-center justify-center text-4xl font-bold text-secondary">
-              📰
-            </div>
-            <p className="text-secondary font-semibold">Create Admin Account</p>
+          <div className="flex flex-col items-center justify-center mb-8">
+            <img src="/LOGO.png" alt="NEWS BANK" className="h-20 w-auto mb-3" />
+            <p className="text-secondary font-semibold text-lg">Create Admin Account</p>
             <p className="text-gray-500 text-sm">ख़बरों में आगे</p>
           </div>
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { fetchAllNewsForAdmin, signOut, deleteNews, deleteNewsImage } from '../services/newsService'
-import { AlertCircle, Plus, Edit2, Trash2, LogOut, ChevronLeft } from 'lucide-react'
+import { AlertCircle, Plus, Edit2, Trash2, LogOut, ChevronLeft, Image } from 'lucide-react'
 
 /**
  * Admin Dashboard
@@ -94,14 +94,22 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content Area */}
           <div className="lg:col-span-2">
-            {/* Action Button */}
-            <div className="mb-6">
+            {/* Action Buttons */}
+            <div className="mb-6 flex flex-wrap gap-4">
               <button
                 onClick={() => navigate('/admin/add-news')}
                 className="flex items-center space-x-2 bg-secondary text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition"
               >
                 <Plus className="w-5 h-5" />
                 <span>Add New Article</span>
+              </button>
+              
+              <button
+                onClick={() => navigate('/admin/manage-ads')}
+                className="flex items-center space-x-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition border-2 border-secondary"
+              >
+                <Image className="w-5 h-5" />
+                <span>Manage Ads</span>
               </button>
             </div>
 

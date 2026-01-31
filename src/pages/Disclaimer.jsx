@@ -19,11 +19,20 @@ const Disclaimer = () => {
 
         {/* Header */}
         <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 mb-6">
-          <div className="flex items-center space-x-3 mb-4">
-            <AlertTriangle className="w-8 h-8 text-secondary" />
-            <h1 className="text-3xl sm:text-4xl font-bold text-primary">Disclaimer</h1>
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+            <img 
+              src="/LOGO.png" 
+              alt="NEWS BANK" 
+              className="w-20 h-20 object-contain"
+            />
+            <div className="text-center sm:text-left">
+              <div className="flex items-center justify-center sm:justify-start space-x-2 mb-2">
+                <AlertTriangle className="w-6 h-6 text-secondary" />
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">Disclaimer</h1>
+              </div>
+              <p className="text-gray-600">Last Updated: January 30, 2026</p>
+            </div>
           </div>
-          <p className="text-gray-600">Last Updated: January 30, 2026</p>
         </div>
 
         {/* Content */}

@@ -47,9 +47,9 @@ const Category = () => {
       </section>
 
       {/* Content Section */}
-      <section className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Content */}
+      <section className="container mx-auto px-4 py-6 sm:py-8 md:py-12 animate-fade-in-up">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main News Content */}
           <div className="lg:col-span-2">
             {/* Loading State */}
             {loading && (
@@ -84,9 +84,11 @@ const Category = () => {
 
             {/* News Grid */}
             {!loading && !error && articles.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid gap-6">
                 {articles.map((article) => (
-                  <NewsCard key={article.id} article={article} />
+                  <div key={article.id} className="transition-transform duration-200 hover:scale-[1.025] focus-within:scale-[1.025] rounded-lg shadow-md bg-white animate-fade-in-up focus-visible:ring-2 focus-visible:ring-green-500" tabIndex={0} aria-label={`Read article: ${article.title}`}>
+                    <NewsCard article={article} />
+                  </div>
                 ))}
               </div>
             )}

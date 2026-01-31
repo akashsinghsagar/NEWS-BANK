@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import ProtectedRoute from './routes/ProtectedRoute'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import WelcomeModal from './components/WelcomeModal'
+import ScrollToTopButton from './components/ScrollToTopButton'
 
 // Public Pages
 import Home from './pages/Home'
@@ -18,6 +20,7 @@ import AdminSignup from './admin/Signup'
 import AdminDashboard from './admin/Dashboard'
 import AddNews from './admin/AddNews'
 import EditNews from './admin/EditNews'
+import ManageAds from './admin/ManageAds'
 
 // Styles
 import './styles/index.css'
@@ -28,9 +31,21 @@ import './styles/index.css'
  */
 
 function App() {
+  const [showWelcome, setShowWelcome] = useState(true)
+
+  useEffect(() => {
+    // Auto-close after 3 seconds, or let user close
+    if (showWelcome) {
+      const timer = setTimeout(() => setShowWelcome(false), 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [showWelcome])
+
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen animate-fade-in">
+        <WelcomeModal show={showWelcome} onClose={() => setShowWelcome(false)} />
+        <ScrollToTopButton />
         {/* Navbar - Shows on all pages except admin login */}
         <Routes>
           <Route
@@ -83,6 +98,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <EditNews />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/manage-ads"
+              element={
+                <ProtectedRoute>
+                  <ManageAds />
                 </ProtectedRoute>
               }
             />
