@@ -14,9 +14,19 @@ const AdminLogin = () => {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [loginAttempts, setLoginAttempts] = useState(0)
+  const [lockoutTime, setLockoutTime] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    // Check if account is locked
+    if (lockoutTime && Date.now() < lockoutTime) {
+      const remainingTime = Math.ceil((lockoutTime - Date.now()) / 1000)
+      setError(`Too many failed attempts. Try again in ${remainingTime} seconds.`)
+      return
+    }
+    
     setLoading(true)
     setError('')
 
@@ -25,10 +35,23 @@ const AdminLogin = () => {
     console.log('Login response:', { data, error })
 
     if (error) {
-      setError(error)
+      const newAttempts = loginAttempts + 1
+      setLoginAttempts(newAttempts)
+      
+      // Lock account after 5 failed attempts for 5 minutes
+      if (newAttempts >= 5) {
+        const lockTime = Date.now() + (5 * 60 * 1000) // 5 minutes
+        setLockoutTime(lockTime)
+        setError('Too many failed attempts. Account locked for 5 minutes.')
+        setLoginAttempts(0)
+      } else {
+        setError(`${error}. ${5 - newAttempts} attempts remaining.`)
+      }
       setLoading(false)
     } else if (data) {
-      // Redirect to admin dashboard
+      // Reset attempts on successful login
+      setLoginAttempts(0)
+      setLockoutTime(null)
       console.log('Login successful, redirecting...')
       navigate('/admin/dashboard')
     }
