@@ -4,6 +4,7 @@ import ProtectedRoute from './routes/ProtectedRoute'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import WelcomeModal from './components/WelcomeModal'
+import YouTubeSubscribeModal from './components/YouTubeSubscribeModal'
 import ScrollToTopButton from './components/ScrollToTopButton'
 import ScrollToTop from './components/ScrollToTop'
 
@@ -48,6 +49,7 @@ function App() {
       <ScrollToTop />
       <div className="flex flex-col min-h-screen animate-fade-in">
         <WelcomeModal show={showWelcome} onClose={() => setShowWelcome(false)} />
+        <YouTubeSubscribeModal />
         <ScrollToTopButton />
         {/* Navbar - Shows on all pages except admin login */}
         <Routes>
