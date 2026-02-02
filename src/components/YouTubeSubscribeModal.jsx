@@ -15,12 +15,12 @@ const YouTubeSubscribeModal = () => {
     const hasSeenPopup = localStorage.getItem('ytSubscribeShown')
     
     if (!hasSeenPopup) {
-      // Show popup after 5 seconds
+      // Show popup after 8 seconds
       const timer = setTimeout(() => {
         setIsOpen(true)
         // Mark as shown so it won't appear again
         localStorage.setItem('ytSubscribeShown', 'true')
-      }, 5000)
+      }, 8000)
 
       return () => clearTimeout(timer)
     } else {
