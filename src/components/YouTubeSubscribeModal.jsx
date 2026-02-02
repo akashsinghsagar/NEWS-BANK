@@ -13,17 +13,21 @@ const YouTubeSubscribeModal = () => {
   useEffect(() => {
     // Check how many times the popup has been shown
     const showCount = parseInt(localStorage.getItem('ytSubscribeCount') || '0')
+    console.log('YouTube Popup - Show count:', showCount)
     
     if (showCount < 2) {
-      // First popup after 8 seconds
-      const firstDelay = showCount === 0 ? 8000 : 10000
+      // First popup after 1.5 seconds (right after welcome modal)
+      const firstDelay = showCount === 0 ? 1500 : 10000
+      console.log('YouTube Popup - Will show after', firstDelay, 'ms')
       
       const timer = setTimeout(() => {
+        console.log('YouTube Popup - Opening now!')
         setIsOpen(true)
       }, firstDelay)
 
       return () => clearTimeout(timer)
     } else {
+      console.log('YouTube Popup - Already shown 2 times, not showing again')
       setIsDismissed(true)
     }
   }, [])
