@@ -34,9 +34,9 @@ function App() {
   const [showWelcome, setShowWelcome] = useState(true)
 
   useEffect(() => {
-    // Auto-close after 3 seconds, or let user close
+    // Auto-close after 1 second, or let user close
     if (showWelcome) {
-      const timer = setTimeout(() => setShowWelcome(false), 3000)
+      const timer = setTimeout(() => setShowWelcome(false), 1000)
       return () => clearTimeout(timer)
     }
   }, [showWelcome])
