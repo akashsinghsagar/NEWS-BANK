@@ -11,16 +11,16 @@ const YouTubeSubscribeModal = () => {
   const [isDismissed, setIsDismissed] = useState(false)
 
   useEffect(() => {
-    // Check if user has already seen the popup
-    const hasSeenPopup = localStorage.getItem('ytSubscribeShown')
+    // Check how many times the popup has been shown
+    const showCount = parseInt(localStorage.getItem('ytSubscribeCount') || '0')
     
-    if (!hasSeenPopup) {
-      // Show popup after 8 seconds
+    if (showCount < 2) {
+      // First popup after 8 seconds
+      const firstDelay = showCount === 0 ? 8000 : 10000
+      
       const timer = setTimeout(() => {
         setIsOpen(true)
-        // Mark as shown so it won't appear again
-        localStorage.setItem('ytSubscribeShown', 'true')
-      }, 8000)
+      }, firstDelay)
 
       return () => clearTimeout(timer)
     } else {
@@ -30,17 +30,29 @@ const YouTubeSubscribeModal = () => {
 
   const handleClose = () => {
     setIsOpen(false)
+    
+    // Increment show count
+    const currentCount = parseInt(localStorage.getItem('ytSubscribeCount') || '0')
+    const newCount = currentCount + 1
+    localStorage.setItem('ytSubscribeCount', newCount.toString())
+    
+    // If first time, schedule second popup after 10 seconds
+    if (newCount === 1) {
+      setTimeout(() => {
+        setIsOpen(true)
+      }, 10000)
+    } else {
+      setIsDismissed(true)
+    }
   }
 
   const handleDismiss = () => {
-    setIsOpen(false)
-    setIsDismissed(true)
+    handleClose()
   }
 
   const handleSubscribe = () => {
     // Open YouTube channel in new tab
-    // TODO: Replace with your actual YouTube channel URL
-    const youtubeChannelURL = 'https://www.youtube.com/@NEWSBANK' // Update this with your channel URL
+    const youtubeChannelURL = 'https://youtube.com/@newsbankpalamu?si=J0s40Kirorw4q0IO'
     window.open(youtubeChannelURL, '_blank')
     handleDismiss()
   }
