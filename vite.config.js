@@ -6,9 +6,19 @@ export default defineConfig({
   server: {
     port: 3000,
     strictPort: false,
+    open: true,
+  },
+  preview: {
+    port: 3000,
   },
   build: {
     target: 'esnext',
     minify: 'terser',
+    outDir: 'dist',
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
   },
 })

@@ -150,7 +150,7 @@ const ManageAds = () => {
   }
 
   return (
-    <main className={`min-h-screen ${ecoBg} pb-8`}>
+    <main className="min-h-screen pb-8">
       {/* Header */}
       <div className="bg-primary text-white shadow-lg">
         <div className="container mx-auto px-4 py-6">
@@ -182,7 +182,7 @@ const ManageAds = () => {
         {!showForm && (
           <button
             onClick={() => setShowForm(true)}
-            className={`mb-6 flex items-center space-x-2 ${ecoButton} transition`}
+            className="mb-6 flex items-center space-x-2 transition"
           >
             <Plus className="w-5 h-5" />
             <span>Add New Ad</span>
@@ -192,7 +192,7 @@ const ManageAds = () => {
         {/* Add Ad Form */}
         {showForm && (
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 className={`text-xl font-bold ${ecoAccent} mb-4`}>Add New Advertisement</h2>
+            <h2 className="text-xl font-bold mb-4">Add New Advertisement</h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Title */}
