@@ -5,10 +5,12 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import WelcomeModal from './components/WelcomeModal'
 import ScrollToTopButton from './components/ScrollToTopButton'
+import ScrollToTop from './components/ScrollToTop'
 
 // Public Pages
 import Home from './pages/Home'
 import NewsDetails from './pages/NewsDetails'
+import About from './pages/About'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsConditions from './pages/TermsConditions'
 import Disclaimer from './pages/Disclaimer'
@@ -43,6 +45,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="flex flex-col min-h-screen animate-fade-in">
         <WelcomeModal show={showWelcome} onClose={() => setShowWelcome(false)} />
         <ScrollToTopButton />
@@ -67,6 +70,7 @@ function App() {
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/news/:id" element={<NewsDetails />} />
+            <Route path="/about" element={<About />} />
             
             {/* Legal Pages */}
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

@@ -23,7 +23,7 @@ const PrivacyPolicy = () => {
             <Shield className="w-8 h-8 text-secondary" />
             <h1 className="text-3xl sm:text-4xl font-bold text-primary">Privacy Policy</h1>
           </div>
-          <p className="text-gray-600">Last Updated: January 30, 2026</p>
+          <p className="text-gray-600">Last Updated: February 2, 2026</p>
         </div>
 
         {/* Content */}
@@ -32,14 +32,19 @@ const PrivacyPolicy = () => {
           <section>
             <h2 className="text-2xl font-bold text-primary mb-4">1. Introduction</h2>
             <p className="text-gray-700 leading-relaxed mb-3">
-              Welcome to NEWS BANK ("we", "our", or "us"). We are committed to protecting your privacy
-              and ensuring the security of your personal information. This Privacy Policy explains how
-              we collect, use, disclose, and safeguard your information when you visit our website
-              <strong> newsbank.com</strong> (the "Website").
+              Welcome to <strong>NEWS BANK</strong> ("we", "our", "us", or "Company"). We are firmly committed to protecting your privacy
+              and ensuring the security of your personal information. This Privacy Policy explains in detail how
+              we collect, use, disclose, store, and safeguard your information when you visit, access, or interact with our website
+              and digital platforms (collectively, the "Website" or "Platform").
+            </p>
+            <p className="text-gray-700 leading-relaxed mb-3">
+              NEWS BANK operates as a comprehensive digital news platform providing real-time news coverage,
+              analysis, and information across multiple categories including politics, sports, entertainment,
+              technology, business, and more. We take your privacy seriously and are transparent about our data practices.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              By accessing or using NEWS BANK, you agree to the terms of this Privacy Policy. If you
-              do not agree with the terms, please do not access the Website.
+              <strong>By accessing or using NEWS BANK, you acknowledge that you have read, understood, and agree to be bound by the terms of this Privacy Policy.</strong> If you
+              do not agree with any part of this Privacy Policy, please discontinue use of the Website immediately.
             </p>
           </section>
 
@@ -141,11 +146,22 @@ const PrivacyPolicy = () => {
           {/* Data Security */}
           <section>
             <h2 className="text-2xl font-bold text-primary mb-4">7. Data Security</h2>
+            <p className="text-gray-700 leading-relaxed mb-3">
+              We implement and maintain comprehensive, industry-standard technical and organizational security measures to protect your personal information
+              from unauthorized access, alteration, disclosure, misuse, or destruction. Our security framework includes:
+            </p>
+            <ul className="list-disc list-inside space-y-2 text-gray-700 mb-4">
+              <li>Secure Socket Layer (SSL) encryption for data transmission</li>
+              <li>Regular security audits and vulnerability assessments</li>
+              <li>Restricted access controls and authentication mechanisms</li>
+              <li>Secure data storage with encrypted databases</li>
+              <li>Regular backups and disaster recovery procedures</li>
+              <li>Employee training on data protection and privacy best practices</li>
+            </ul>
             <p className="text-gray-700 leading-relaxed">
-              We implement industry-standard security measures to protect your personal information
-              from unauthorized access, alteration, disclosure, or destruction. However, no method of
-              transmission over the Internet or electronic storage is 100% secure. While we strive to
-              protect your data, we cannot guarantee absolute security.
+              However, please be aware that no method of transmission over the Internet or electronic storage is 100% secure or error-free. 
+              While we implement commercially reasonable security measures to protect your data, we cannot guarantee absolute security. 
+              You acknowledge and accept the inherent security risks of providing information online.
             </p>
           </section>
 
