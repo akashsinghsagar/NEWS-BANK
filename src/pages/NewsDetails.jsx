@@ -26,9 +26,50 @@ const NewsDetails = () => {
         setError(error)
       } else {
         setArticle(data)
-        // Update page title and meta for SEO
+        // Update page title and meta for SEO and social sharing
         if (data) {
           document.title = `${data.title} | NEWS BANK`
+          
+          // Update meta tags for social media sharing
+          const updateMetaTag = (property, content) => {
+            let element = document.querySelector(`meta[property="${property}"]`)
+            if (!element) {
+              element = document.querySelector(`meta[name="${property}"]`)
+            }
+            if (!element) {
+              element = document.createElement('meta')
+              if (property.startsWith('og:') || property.startsWith('twitter:')) {
+                element.setAttribute('property', property)
+              } else {
+                element.setAttribute('name', property)
+              }
+              document.head.appendChild(element)
+            }
+            element.setAttribute('content', content)
+          }
+          
+          const currentUrl = window.location.href
+          const description = data.content ? data.content.substring(0, 200) + '...' : ''
+          
+          // Open Graph tags
+          updateMetaTag('og:title', data.title)
+          updateMetaTag('og:description', description)
+          updateMetaTag('og:url', currentUrl)
+          updateMetaTag('og:type', 'article')
+          if (data.image_url) {
+            updateMetaTag('og:image', data.image_url)
+          }
+          
+          // Twitter Card tags
+          updateMetaTag('twitter:card', 'summary_large_image')
+          updateMetaTag('twitter:title', data.title)
+          updateMetaTag('twitter:description', description)
+          if (data.image_url) {
+            updateMetaTag('twitter:image', data.image_url)
+          }
+          
+          // Standard meta description
+          updateMetaTag('description', description)
         }
       }
       setLoading(false)

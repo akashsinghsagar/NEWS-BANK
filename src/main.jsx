@@ -8,6 +8,13 @@ import './styles/index.css'
  * Mounts React app to DOM
  */
 
+// Handle redirects from 404.html
+if (sessionStorage.getItem('redirectPath')) {
+  const redirectPath = sessionStorage.getItem('redirectPath')
+  sessionStorage.removeItem('redirectPath')
+  window.history.replaceState(null, '', redirectPath)
+}
+
 // Register Service Worker for Push Notifications
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
