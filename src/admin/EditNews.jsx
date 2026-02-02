@@ -101,6 +101,7 @@ const EditNews = () => {
       const updateData = {
         title: formData.title,
         content: formData.content,
+        reporter_name: formData.reporter_name,
         category: formData.category,
         is_published: formData.is_published,
         image_url: imageUrl,
@@ -175,6 +176,22 @@ const EditNews = () => {
                 onChange={handleInputChange}
                 placeholder="Enter article title"
                 required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+              />
+            </div>
+
+            {/* Reporter Name */}
+            <div>
+              <label htmlFor="reporter_name" className="block text-sm font-medium text-primary mb-2">
+                Reporter Name
+              </label>
+              <input
+                id="reporter_name"
+                type="text"
+                name="reporter_name"
+                value={formData.reporter_name}
+                onChange={handleInputChange}
+                placeholder="Enter reporter's name"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
               />
             </div>
