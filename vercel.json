@@ -1,10 +1,4 @@
 {
-  "routes": [
-    {
-      "src": "/ads.txt",
-      "dest": "/ads.txt"
-    }
-  ],
   "rewrites": [
     {
       "source": "/(.*)",
