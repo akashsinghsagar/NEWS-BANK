@@ -1,30 +1,45 @@
 import React, { useEffect } from 'react'
+import { X } from 'lucide-react'
 
 export default function WelcomeModal({ show, onClose }) {
+  const closeModal = () => {
+    localStorage.setItem('newsBankWelcomeShown', 'true')
+    onClose()
+  }
+
   useEffect(() => {
-    if (show) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
+    if (!show) return undefined
+
+    document.body.style.overflow = 'hidden'
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') closeModal()
     }
+    document.addEventListener('keydown', handleKeyDown)
+
     return () => {
       document.body.style.overflow = ''
+      document.removeEventListener('keydown', handleKeyDown)
     }
   }, [show])
 
   if (!show) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 animate-fade-in">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-xs w-full flex flex-col items-center animate-scale-in">
-        <img src="/LOGO.png" alt="NEWS BANK" className="w-24 h-24 mb-4 animate-bounce-in" />
-        <h2 className="text-2xl font-bold text-primary mb-2 text-center animate-fade-in">
+    <div className="welcome-overlay" onMouseDown={(event) => {
+      if (event.target === event.currentTarget) closeModal()
+    }}>
+      <div className="welcome-card" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+        <button onClick={closeModal} className="welcome-close" aria-label="Close welcome message">
+          <X size={19} />
+        </button>
+        <img src="/LOGO.png" alt="NEWS BANK" className="welcome-logo" />
+        <h2 id="welcome-title">
           Welcome to <span className="text-secondary">NEWS BANK</span>
         </h2>
-        <p className="text-gray-600 text-center mb-6 animate-fade-in">Your trusted source for news</p>
+        <p>Your trusted source for news</p>
         <button
-          onClick={onClose}
-          className="mt-2 px-6 py-2 bg-secondary text-white rounded-lg font-semibold hover:bg-secondary/90 transition animate-fade-in"
+          onClick={closeModal}
+          className="welcome-enter"
         >
           Enter Site
         </button>

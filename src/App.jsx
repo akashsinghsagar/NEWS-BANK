@@ -7,7 +7,6 @@ import WelcomeModal from './components/WelcomeModal'
 import YouTubeSubscribeModal from './components/YouTubeSubscribeModal'
 import ScrollToTopButton from './components/ScrollToTopButton'
 import ScrollToTop from './components/ScrollToTop'
-import MobileBottomNav from './components/MobileBottomNav'
 
 // Public Pages
 import Home from './pages/Home'
@@ -35,15 +34,9 @@ import './styles/index.css'
  */
 
 function App() {
-  const [showWelcome, setShowWelcome] = useState(true)
-
-  useEffect(() => {
-    // Auto-close after 1 second, or let user close
-    if (showWelcome) {
-      const timer = setTimeout(() => setShowWelcome(false), 1000)
-      return () => clearTimeout(timer)
-    }
-  }, [showWelcome])
+  const [showWelcome, setShowWelcome] = useState(() => (
+    localStorage.getItem('newsBankWelcomeShown') !== 'true'
+  ))
 
   return (
     <Router>
@@ -121,8 +114,6 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
-
-        <MobileBottomNav />
 
         {/* Footer - Hide on admin pages */}
         <Routes>
