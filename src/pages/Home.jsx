@@ -1,327 +1,161 @@
-import React, { useState, useEffect } from 'react'
-import { fetchPublishedNews } from '../services/newsService'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { AlertCircle, ArrowRight, Search, Sparkles } from 'lucide-react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { fetchAdsByPosition } from '../services/adService'
+import { fetchPublishedNews } from '../services/newsService'
+import AdSlider from '../components/AdSlider'
 import NewsCard from '../components/NewsCard'
-import { AlertCircle, Calendar, Clock, Cloud, Sun, CloudRain, CloudSnow, Wind } from 'lucide-react'
+import AnimatedTagline from '../components/AnimatedTagline'
 
-/**
- * Home Page
- * Displays all published news articles
- */
+const formatDate = (value) => new Date(value).toLocaleDateString('en-IN', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+})
 
 const Home = () => {
   const [articles, setArticles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [sidebarAd, setSidebarAd] = useState(null)
-  const [sidebarSmallAd, setSidebarSmallAd] = useState(null)
-  const [currentDateTime, setCurrentDateTime] = useState(new Date())
-  const [weather, setWeather] = useState(null)
-
-  // Update date/time every second
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentDateTime(new Date())
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [])
-
-  // Fetch weather data
-  useEffect(() => {
-    const fetchWeather = async () => {
-      try {
-        // Replace YOUR_API_KEY with your OpenWeatherMap API key
-        // Get free API key from: https://openweathermap.org/api
-        const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || 'YOUR_API_KEY'
-        const CITY = 'Delhi' // Change to your city
-        
-        if (API_KEY && API_KEY !== 'YOUR_API_KEY') {
-          const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}&units=metric`
-          )
-          const data = await response.json()
-          if (data.main) {
-            setWeather({
-              temp: Math.round(data.main.temp),
-              description: data.weather[0].main,
-              city: data.name
-            })
-          }
-        }
-      } catch (err) {
-        console.log('Weather fetch error:', err)
-      }
-    }
-    fetchWeather()
-  }, [])
-
-  // Format date in English
-  const formatDateEN = (date) => {
-    const options = { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    }
-    return date.toLocaleDateString('en-IN', options)
-  }
-
-  // Format date in Hindi
-  const formatDateHI = (date) => {
-    const options = { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    }
-    return date.toLocaleDateString('hi-IN', options)
-  }
-
-  // Format time in English
-  const formatTimeEN = (date) => {
-    return date.toLocaleTimeString('en-IN', { 
-      hour: '2-digit', 
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true 
-    })
-  }
-
-  // Format time in Hindi
-  const formatTimeHI = (date) => {
-    return date.toLocaleTimeString('hi-IN', { 
-      hour: '2-digit', 
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true 
-    })
-  }
-
-  // Get weather icon
-  const getWeatherIcon = (description) => {
-    switch (description?.toLowerCase()) {
-      case 'clear': return <Sun className="w-5 h-5" />
-      case 'clouds': return <Cloud className="w-5 h-5" />
-      case 'rain': return <CloudRain className="w-5 h-5" />
-      case 'snow': return <CloudSnow className="w-5 h-5" />
-      default: return <Wind className="w-5 h-5" />
-    }
-  }
+  const [query, setQuery] = useState('')
+  const [dateFilter, setDateFilter] = useState('')
+  const [searchParams] = useSearchParams()
+  const searchRef = useRef(null)
+  const [ad, setAd] = useState(null)
 
   useEffect(() => {
-    const loadNews = async () => {
-      const { data, error } = await fetchPublishedNews()
-      console.log('Fetched news:', { data, error })
-      if (error) {
-        setError(error)
-      } else {
-        setArticles(data || [])
-      }
+    const load = async () => {
+      const [{ data, error: newsError }, { data: adData }] = await Promise.all([
+        fetchPublishedNews(),
+        fetchAdsByPosition('sidebar'),
+      ])
+      if (newsError) setError(newsError)
+      setArticles(data || [])
+      setAd(adData || null)
       setLoading(false)
     }
-
-    const loadAds = async () => {
-      const { data: sidebar } = await fetchAdsByPosition('sidebar')
-      const { data: sidebarSmall } = await fetchAdsByPosition('sidebar_small')
-      setSidebarAd(sidebar)
-      setSidebarSmallAd(sidebarSmall)
-    }
-
-    loadNews()
-    loadAds()
+    load()
   }, [])
 
-  return (
-    <main className="bg-gray-50 min-h-screen">
-      {/* Hero Section - Slim Ribbon Style */}
-      <section className="bg-gradient-to-r from-primary via-gray-800 to-primary text-white py-4 sm:py-6 relative overflow-hidden">
-        {/* Ribbon Shape */}
-        <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 via-transparent to-secondary/20"></div>
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-secondary to-transparent"></div>
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-secondary to-transparent"></div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          {/* Date, Time & Weather Bar */}
-          <div className="flex flex-col sm:flex-row items-center justify-between text-xs sm:text-sm mb-4 pb-3 border-b border-white/20 gap-2">
-            {/* English Date & Time */}
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-1 text-accent">
-                <Calendar className="w-4 h-4" />
-                <span>{formatDateEN(currentDateTime)}</span>
-              </div>
-              <div className="flex items-center space-x-1 text-secondary">
-                <Clock className="w-4 h-4" />
-                <span className="font-mono">{formatTimeEN(currentDateTime)}</span>
-              </div>
-            </div>
-            
-            {/* Weather */}
-            {weather && (
-              <div className="flex items-center space-x-2 text-white bg-white/10 px-3 py-1 rounded-full">
-                {getWeatherIcon(weather.description)}
-                <span className="font-semibold">{weather.temp}°C</span>
-                <span>| {weather.city}</span>
-              </div>
-            )}
-            
-            {/* Hindi Date & Time */}
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-1 text-accent">
-                <Calendar className="w-4 h-4" />
-                <span>{formatDateHI(currentDateTime)}</span>
-              </div>
-              <div className="flex items-center space-x-1 text-secondary">
-                <Clock className="w-4 h-4" />
-                <span className="font-mono">{formatTimeHI(currentDateTime)}</span>
-              </div>
-            </div>
-          </div>
+  useEffect(() => {
+    const focusSearch = () => searchRef.current?.focus()
+    window.addEventListener('newsbank:focus-search', focusSearch)
+    if (searchParams.get('search') === 'true') {
+      window.setTimeout(focusSearch, 0)
+    }
+    return () => window.removeEventListener('newsbank:focus-search', focusSearch)
+  }, [searchParams])
 
-          {/* Title */}
-          <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
-              <span className="bg-gradient-to-r from-secondary via-yellow-400 to-secondary bg-clip-text text-transparent">
-                NEWS BANK
-              </span>
-            </h1>
-            <p className="text-sm sm:text-lg text-accent font-light tracking-wider">
-              ख़बरों में आगे
-            </p>
-            
-            {/* YouTube Link */}
-            <div className="mt-4 animate-fade-in">
-              <a 
-                href="https://www.youtube.com/@NewsBankPalamu" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center space-x-2 bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl group"
-              >
-                <svg 
-                  className="w-6 h-6 transition-transform duration-300 group-hover:rotate-12" 
-                  fill="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
-                <span className="font-semibold text-sm sm:text-base">Subscribe on YouTube</span>
-              </a>
-            </div>
+  const filteredArticles = useMemo(() => {
+    const value = query.trim().toLowerCase()
+    return articles.filter((article) => {
+      const tags = Array.isArray(article.tags) ? article.tags.join(' ') : (article.tags || '')
+      const searchable = `${article.title} ${article.content} ${article.reporter_name || ''} ${tags}`.toLowerCase()
+      const matchesQuery = !value || searchable.includes(value)
+      const matchesDate = !dateFilter || new Date(article.created_at).toISOString().slice(0, 10) === dateFilter
+      return matchesQuery && matchesDate
+    })
+  }, [articles, query, dateFilter])
+
+  const featured = filteredArticles[0]
+  const feed = filteredArticles.slice(1)
+
+  return (
+    <main className="public-shell">
+      <section className="editorial-masthead">
+        <div className="editorial-masthead__inner">
+          <div>
+            <p className="eyebrow"><Sparkles size={14} /> Independent digital journalism</p>
+            <h1><AnimatedTagline variant="hero" /></h1>
+            <p className="masthead-copy">The latest stories, context and updates from News Bank — in one clear, continuously updated feed.</p>
+          </div>
+          <div className="masthead-date">
+            <span>Today</span>
+            <strong>{formatDate(new Date())}</strong>
           </div>
         </div>
       </section>
 
-      {/* Content Section - Mobile Optimized */}
-      <section className="container mx-auto px-4 py-6 sm:py-8 md:py-12 animate-fade-in-up">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main News Content */}
-          <div className="lg:col-span-2">
-            {/* Loading State */}
-            {loading && (
-              <div className="flex items-center justify-center py-12 sm:py-16">
-                <div className="text-center">
-                  <div className="inline-block animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-2 sm:border-b-4 border-secondary"></div>
-                  <p className="mt-4 text-gray-600 text-sm sm:text-base">Loading news...</p>
-                </div>
-              </div>
-            )}
+      <div className="ticker" aria-label="Breaking news">
+        <span className="ticker__label">BREAKING</span>
+        <span>Stay informed with the latest News Bank updates</span>
+      </div>
 
-            {/* Error State */}
-            {error && !loading && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
-                <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0" />
-                <div>
-                  <h3 className="text-red-900 font-semibold text-sm sm:text-base">Error Loading News</h3>
-                  <p className="text-red-700 text-xs sm:text-sm">{error}</p>
-                </div>
-              </div>
-            )}
-
-            {/* Empty State */}
-            {!loading && !error && articles.length === 0 && (
-              <div className="bg-gray-100 rounded-lg p-8 sm:p-12 text-center">
-                <p className="text-gray-600 text-base sm:text-lg">No news articles found.</p>
-                <p className="text-gray-500 text-sm sm:text-base mt-2">Check back soon for the latest updates!</p>
-              </div>
-            )}
-
-            {/* News Grid - Mobile Optimized */}
-            {!loading && !error && articles.length > 0 && (
-              <div className="grid gap-6">
-                {articles.map(article => (
-                  <div key={article.id} className="transition-transform duration-200 hover:scale-[1.025] focus-within:scale-[1.025] rounded-lg shadow-md bg-white animate-fade-in-up focus-visible:ring-2 focus-visible:ring-green-500" tabIndex={0} aria-label={`Read article: ${article.title}`}>
-                    <NewsCard article={article} />
-                  </div>
-                ))}
-              </div>
-            )}
+      <section className="public-content">
+        <div className="public-content__header">
+          <div>
+            <p className="eyebrow">The News Bank briefing</p>
+            <h2>Latest stories</h2>
           </div>
-
-          {/* Sidebar - Ads Section */}
-          <aside className="lg:col-span-1">
-            {/* Featured Ad Banner */}
-            <div className="bg-gradient-to-br from-primary to-secondary text-white rounded-lg p-6 mb-6 sticky top-20">
-              <h3 className="text-lg font-bold mb-4">Featured Advertisement</h3>
-              <div className="rounded-lg overflow-hidden">
-                {sidebarAd ? (
-                  <a href={sidebarAd.link_url || '#'} target="_blank" rel="noopener noreferrer">
-                    <img 
-                      src={sidebarAd.image_url} 
-                      alt={sidebarAd.title} 
-                      className="w-full h-auto object-cover rounded-lg hover:opacity-90 transition"
-                    />
-                  </a>
-                ) : (
-                  <div className="bg-gray-800 rounded-lg p-8 text-center h-96 flex items-center justify-center">
-                    <div className="text-gray-300">
-                      <p className="text-sm">Advertisement Space</p>
-                      <p className="text-xs text-gray-400 mt-2">300x600 Banner</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Secondary Ad */}
-            <div className="bg-white rounded-lg shadow-md p-6 border-2 border-gray-200 mb-6">
-              <h4 className="text-sm font-bold text-primary mb-3">Sponsored</h4>
-              <div className="rounded-lg overflow-hidden">
-                {sidebarSmallAd ? (
-                  <a href={sidebarSmallAd.link_url || '#'} target="_blank" rel="noopener noreferrer">
-                    <img 
-                      src={sidebarSmallAd.image_url} 
-                      alt={sidebarSmallAd.title} 
-                      className="w-full h-auto object-cover rounded-lg hover:opacity-90 transition"
-                    />
-                  </a>
-                ) : (
-                  <div className="bg-gray-200 rounded-lg p-6 text-center h-48 flex items-center justify-center">
-                    <div className="text-gray-500 text-sm">
-                      Advertisement Banner<br/>300x250 Format
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Trending Section */}
-            {!loading && articles.length > 0 && (
-              <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-secondary">
-                <h4 className="font-bold text-primary mb-4">Trending Now</h4>
-                <div className="space-y-3">
-                  {articles.slice(0, 3).map((article) => (
-                    <a
-                      key={article.id}
-                      href={`/news/${article.id}`}
-                      className="text-sm text-gray-700 hover:text-secondary transition line-clamp-2 block hover:font-semibold"
-                    >
-                      • {article.title}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
-          </aside>
+          <label className="search-field">
+            <Search size={18} aria-hidden="true" />
+            <input
+              ref={searchRef}
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search the news"
+              aria-label="Search news"
+            />
+          </label>
+          <label className="date-filter">
+            <span>Published</span>
+            <input type="date" value={dateFilter} onChange={(event) => setDateFilter(event.target.value)} aria-label="Filter by publication date" />
+          </label>
         </div>
+
+        {ad && (
+          <a className="top-ad" href={ad.link_url || '#'} target="_blank" rel="noopener noreferrer">
+            <span>Advertisement</span>
+            <img className="ad-media-4-3" src={ad.image_url} alt={ad.title} />
+          </a>
+        )}
+
+        {loading && <div className="state-card"><div className="loader" /> Loading the latest stories…</div>}
+        {error && !loading && (
+          <div className="state-card state-card--error"><AlertCircle size={20} /><span>Unable to load news: {error}</span></div>
+        )}
+        {!loading && !error && !filteredArticles.length && (
+          <div className="state-card"><p>No stories match your search.</p></div>
+        )}
+
+        {!loading && !error && featured && (
+          <div className="featured-story">
+            <Link to={`/news/${featured.id}`} className="featured-story__image">
+              {featured.image_url ? <img className="news-media-4-3" src={featured.image_url} alt={featured.title} /> : <div className="image-placeholder news-media-4-3">NEWS BANK</div>}
+            </Link>
+            <div className="featured-story__content">
+              <p className="eyebrow">Featured story</p>
+              <Link to={`/news/${featured.id}`}><h2>{featured.title}</h2></Link>
+              <p>{(featured.content || '').slice(0, 220)}{featured.content?.length > 220 ? '…' : ''}</p>
+              <div className="story-meta"><span>{featured.reporter_name || 'News Bank'}</span><span>{formatDate(featured.created_at)}</span></div>
+              <Link to={`/news/${featured.id}`} className="text-link">Read full story <ArrowRight size={16} /></Link>
+            </div>
+          </div>
+        )}
+
+        {feed.length > 0 && (
+          <div className="feed-layout">
+            <div className="news-feed">
+              <div className="section-rule"><span>More from News Bank</span></div>
+              {feed.map((article, index) => (
+                <React.Fragment key={article.id}>
+                  <NewsCard article={article} />
+                  {(index + 1) % 4 === 0 && <AdSlider />}
+                </React.Fragment>
+              ))}
+            </div>
+            <aside className="most-read">
+              <p className="eyebrow">Read next</p>
+              <h3>Most recent</h3>
+              {filteredArticles.slice(0, 5).map((article, index) => (
+                <Link to={`/news/${article.id}`} key={article.id} className="most-read__item">
+                  <strong>{String(index + 1).padStart(2, '0')}</strong>
+                  <span>{article.title}</span>
+                </Link>
+              ))}
+            </aside>
+          </div>
+        )}
       </section>
     </main>
   )

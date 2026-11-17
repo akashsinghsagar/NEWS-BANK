@@ -23,6 +23,8 @@ CREATE TABLE news (
   image_url TEXT,                                   -- URL from Supabase Storage (news-images bucket)
   reporter_name TEXT DEFAULT 'News Bank Reporter',  -- Author name
   category TEXT DEFAULT 'General',                  -- Article category
+  tags TEXT[] DEFAULT '{}',                         -- Optional search/internal keywords
+  scheduled_publish_at TIMESTAMP WITH TIME ZONE,    -- Optional future publication time
   is_published BOOLEAN DEFAULT FALSE,               -- TRUE = visible on homepage
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()

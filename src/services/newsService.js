@@ -15,27 +15,16 @@ export const fetchPublishedNews = async () => {
       .order('created_at', { ascending: false })
 
     if (error) throw error
-    return { data, error: null }
+    // Keep existing databases working until the optional scheduling migration
+    // has been applied. Once present, scheduled stories remain hidden client-side
+    // as an additional safeguard to the database RLS policy.
+    const visibleData = (data || []).filter((article) => (
+      !article.scheduled_publish_at ||
+      new Date(article.scheduled_publish_at).getTime() <= Date.now()
+    ))
+    return { data: visibleData, error: null }
   } catch (error) {
     console.error('Error fetching published news:', error)
-    return { data: null, error: error.message }
-  }
-}
-
-// Fetch news by category
-export const fetchNewsByCategory = async (category) => {
-  try {
-    const { data, error } = await supabase
-      .from('news')
-      .select('*')
-      .eq('category', category)
-      .eq('is_published', true)
-      .order('created_at', { ascending: false })
-
-    if (error) throw error
-    return { data, error: null }
-  } catch (error) {
-    console.error(`Error fetching ${category} news:`, error)
     return { data: null, error: error.message }
   }
 }

@@ -7,6 +7,7 @@ import WelcomeModal from './components/WelcomeModal'
 import YouTubeSubscribeModal from './components/YouTubeSubscribeModal'
 import ScrollToTopButton from './components/ScrollToTopButton'
 import ScrollToTop from './components/ScrollToTop'
+import MobileBottomNav from './components/MobileBottomNav'
 
 // Public Pages
 import Home from './pages/Home'
@@ -120,6 +121,8 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
+
+        <MobileBottomNav />
 
         {/* Footer - Hide on admin pages */}
         <Routes>

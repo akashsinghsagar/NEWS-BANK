@@ -20,6 +20,8 @@ const EditNews = () => {
     title: '',
     content: '',
     reporter_name: '',
+    tags: '',
+    scheduled_publish_at: '',
     is_published: false,
     image_url: '',
   })
@@ -38,7 +40,13 @@ const EditNews = () => {
     if (error) {
       setError(error)
     } else if (data) {
-      setFormData(data)
+      setFormData({
+        ...data,
+        tags: Array.isArray(data.tags) ? data.tags.join(', ') : (data.tags || ''),
+        scheduled_publish_at: data.scheduled_publish_at
+          ? new Date(data.scheduled_publish_at).toISOString().slice(0, 16)
+          : '',
+      })
       if (data.image_url) {
         setPreviewUrl(data.image_url)
       }
@@ -102,7 +110,8 @@ const EditNews = () => {
         title: formData.title,
         content: formData.content,
         reporter_name: formData.reporter_name,
-        category: formData.category,
+        tags: formData.tags.split(',').map((tag) => tag.trim()).filter(Boolean),
+        scheduled_publish_at: formData.scheduled_publish_at || null,
         is_published: formData.is_published,
         image_url: imageUrl,
       }
@@ -196,6 +205,22 @@ const EditNews = () => {
               />
             </div>
 
+            <div>
+              <label htmlFor="tags" className="block text-sm font-medium text-primary mb-2">
+                Tags and keywords <span className="font-normal text-gray-500">(optional)</span>
+              </label>
+              <input
+                id="tags"
+                type="text"
+                name="tags"
+                value={formData.tags}
+                onChange={handleInputChange}
+                placeholder="local update, education, breaking"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+              />
+              <p className="text-xs text-gray-500 mt-2">Tags are for search and internal organization only.</p>
+            </div>
+
             {/* Image Upload */}
             <div>
               <label htmlFor="image" className="block text-sm font-medium text-primary mb-2">
@@ -253,6 +278,20 @@ const EditNews = () => {
               <p className="text-xs text-gray-500 mt-2">
                 Support for Hindi (हिंदी) and English text
               </p>
+            </div>
+
+            <div>
+              <label htmlFor="scheduled_publish_at" className="block text-sm font-medium text-primary mb-2">
+                Schedule publication <span className="font-normal text-gray-500">(optional)</span>
+              </label>
+              <input
+                id="scheduled_publish_at"
+                type="datetime-local"
+                name="scheduled_publish_at"
+                value={formData.scheduled_publish_at}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+              />
             </div>
 
             {/* Publish Toggle */}

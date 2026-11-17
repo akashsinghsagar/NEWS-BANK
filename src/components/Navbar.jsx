@@ -1,6 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Menu, Search } from 'lucide-react'
 import NotificationBell from './NotificationBell'
+import AnimatedTagline from './AnimatedTagline'
 
 /**
  * Navbar Component
@@ -8,26 +10,40 @@ import NotificationBell from './NotificationBell'
  */
 
 const Navbar = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const openSearch = () => {
+    if (location.pathname === '/') {
+      window.dispatchEvent(new CustomEvent('newsbank:focus-search'))
+    } else {
+      navigate('/?search=true')
+    }
+  }
+
   return (
-    <nav className="bg-primary text-white shadow-lg sticky top-0 z-50">
-      <div className="container mx-auto px-3 sm:px-4 py-2 sm:py-3">
+    <nav className="site-header">
+      <div className="site-header__inner">
+        <button className="icon-button mobile-only" aria-label="Open menu">
+          <Menu size={21} />
+        </button>
         <div className="flex items-center justify-between">
           {/* Logo and Branding */}
-          <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition">
-            <img src="/LOGO.png" alt="NEWS BANK" className="h-12 sm:h-14 w-auto" />
+          <Link to="/" className="brand-lockup">
+            <img src="/LOGO.png" alt="NEWS BANK" className="brand-lockup__image" />
             <div className="flex flex-col justify-center">
-              <span className="text-lg sm:text-xl font-bold text-secondary leading-tight">NEWS BANK</span>
-              <p className="text-xs text-accent leading-tight">ख़बरों में आगे</p>
+              <span className="brand-lockup__name">NEWS BANK</span>
+              <AnimatedTagline />
             </div>
           </Link>
 
           {/* Navigation Links */}
-          <div className="flex items-center space-x-3 sm:space-x-4">
+          <div className="header-actions">
+            <button onClick={openSearch} className="icon-button" aria-label="Search news">
+              <Search size={20} />
+            </button>
             <NotificationBell />
-            <Link
-              to="/admin/login"
-              className="bg-secondary text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base font-medium hover:opacity-90 transition active:scale-95 touch-manipulation"
-            >
+            <Link to="/admin/login" className="admin-link">
               Admin
             </Link>
           </div>

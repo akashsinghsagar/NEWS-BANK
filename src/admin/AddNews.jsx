@@ -14,6 +14,8 @@ const AddNews = () => {
     title: '',
     content: '',
     reporter_name: '',
+    tags: '',
+    scheduled_publish_at: '',
     is_published: false,
   })
   const [imageFile, setImageFile] = useState(null)
@@ -63,6 +65,8 @@ const AddNews = () => {
       // Create news article
       const newsData = {
         ...formData,
+        tags: formData.tags.split(',').map((tag) => tag.trim()).filter(Boolean),
+        scheduled_publish_at: formData.scheduled_publish_at || null,
         image_url: imageUrl,
       }
 
@@ -141,6 +145,22 @@ const AddNews = () => {
               />
             </div>
 
+            <div>
+              <label htmlFor="tags" className="block text-sm font-medium text-primary mb-2">
+                Tags and keywords <span className="font-normal text-gray-500">(optional)</span>
+              </label>
+              <input
+                id="tags"
+                type="text"
+                name="tags"
+                value={formData.tags}
+                onChange={handleInputChange}
+                placeholder="local update, education, breaking"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+              />
+              <p className="text-xs text-gray-500 mt-2">Separate keywords with commas. Tags never create separate feeds.</p>
+            </div>
+
             {/* Image Upload */}
             <div>
               <label htmlFor="image" className="block text-sm font-medium text-primary mb-2">
@@ -216,6 +236,20 @@ const AddNews = () => {
               <label htmlFor="is_published" className="text-sm font-medium text-primary">
                 Publish immediately (visible to public)
               </label>
+            </div>
+
+            <div>
+              <label htmlFor="scheduled_publish_at" className="block text-sm font-medium text-primary mb-2">
+                Schedule publication <span className="font-normal text-gray-500">(optional)</span>
+              </label>
+              <input
+                id="scheduled_publish_at"
+                type="datetime-local"
+                name="scheduled_publish_at"
+                value={formData.scheduled_publish_at}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary"
+              />
             </div>
 
             {/* Action Buttons */}

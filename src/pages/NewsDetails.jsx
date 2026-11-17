@@ -181,11 +181,11 @@ const NewsDetails = () => {
 
           {/* Featured Image */}
           {article.image_url && (
-            <div className="mb-8 rounded-lg overflow-hidden shadow-lg">
+            <div className="article-media news-media-4-3 mb-8 rounded-lg overflow-hidden shadow-lg">
               <img
                 src={article.image_url}
                 alt={article.title}
-                className="w-full h-auto object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
           )}
@@ -198,17 +198,17 @@ const NewsDetails = () => {
           </div>
 
           {/* Ad Banner After Article */}
-          <div className="rounded-lg overflow-hidden my-8">
+          <div className="ad-media-4-3 rounded-lg overflow-hidden my-8">
             {inlineAd ? (
               <a href={inlineAd.link_url || '#'} target="_blank" rel="noopener noreferrer">
                 <img 
                   src={inlineAd.image_url} 
                   alt={inlineAd.title} 
-                  className="w-full h-auto object-cover rounded-lg hover:opacity-90 transition"
+                  className="w-full h-full object-cover rounded-lg hover:opacity-90 transition"
                 />
               </a>
             ) : (
-              <div className="bg-gray-200 rounded-lg p-6">
+              <div className="ad-media-4-3 bg-gray-200 rounded-lg p-6">
                 <p className="text-gray-600 text-center text-sm">
                   Advertisement Space - 728x90
                 </p>
@@ -235,17 +235,17 @@ const NewsDetails = () => {
         {/* Sidebar */}
         <aside className="lg:col-span-1">
           {/* Sidebar Ad */}
-          <div className="rounded-lg overflow-hidden sticky top-20 mb-6">
+          <div className="ad-media-square rounded-lg overflow-hidden sticky top-20 mb-6">
             {sidebarAd ? (
               <a href={sidebarAd.link_url || '#'} target="_blank" rel="noopener noreferrer">
                 <img 
                   src={sidebarAd.image_url} 
                   alt={sidebarAd.title} 
-                  className="w-full h-auto object-cover rounded-lg hover:opacity-90 transition"
+                  className="w-full h-full object-cover rounded-lg hover:opacity-90 transition"
                 />
               </a>
             ) : (
-              <div className="bg-gray-200 rounded-lg p-6">
+              <div className="ad-media-square bg-gray-200 rounded-lg p-6">
                 <p className="text-gray-600 text-center text-sm">
                   Advertisement Space - 300x600
                 </p>
